@@ -7,6 +7,9 @@ import org.springframework.mail.MailException;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
+import java.util.Optional;
+
+import static java.util.Optional.ofNullable;
 
 @Slf4j
 @Service
@@ -28,17 +31,16 @@ public class SimpleEmailService {
 
     private SimpleMailMessage createMailMessage(final Mail mail) {
         SimpleMailMessage mailMessage = new SimpleMailMessage();
-        if (mail.getMailTo().equals(null) || mail.getMailTo().equals("")) {
-            mailMessage.setTo(mail.getMailTo());
-            mailMessage.setSubject(mail.getSubject());
-            mailMessage.setText(mail.getMessage());
-            return mailMessage;
-        } else {
-            mailMessage.setTo(mail.getMailTo());
-            mailMessage.setSubject(mail.getSubject());
-            mailMessage.setText(mail.getMessage());
-            mailMessage.setCc(mail.getToCc());
-            return mailMessage;
-        }
+
+        ofNullable(mail).ifPresent(mailMess -> mailMess.getToCc());
+        mailMessage.setTo(mail.getMailTo());
+        mailMessage.setSubject(mail.getSubject());
+        mailMessage.setText(mail.getMessage());
+
+        Optional.ofNullable(mail.getToCc())
+                .filter(cc -> !cc.isEmpty())
+                .ifPresent(cc -> mailMessage.setCc(cc));
+
+        return mailMessage;
     }
 }
