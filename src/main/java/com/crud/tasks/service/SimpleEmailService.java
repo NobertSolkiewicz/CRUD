@@ -32,14 +32,13 @@ public class SimpleEmailService {
     private SimpleMailMessage createMailMessage(final Mail mail) {
         SimpleMailMessage mailMessage = new SimpleMailMessage();
 
-        ofNullable(mail).ifPresent(mailMess -> mailMess.getToCc());
         mailMessage.setTo(mail.getMailTo());
         mailMessage.setSubject(mail.getSubject());
         mailMessage.setText(mail.getMessage());
 
-        Optional.ofNullable(mail.getToCc())
+        /*Optional.ofNullable(mail.getToCc())
                 .filter(cc -> !cc.isEmpty())
-                .ifPresent(cc -> mailMessage.setCc(cc));
+                .ifPresent(cc -> mailMessage.setCc(cc));*/
 
         return mailMessage;
     }
