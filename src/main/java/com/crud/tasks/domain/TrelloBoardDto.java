@@ -21,5 +21,5 @@ public class TrelloBoardDto {
     private String name;
 
     @JsonProperty("lists")
-    private List<TrelloListDo> lists;
+    private List<TrelloListDto> lists;
 }
