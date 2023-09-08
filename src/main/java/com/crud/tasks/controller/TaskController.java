@@ -20,6 +20,7 @@ public class TaskController {
     private final DbService service;
     private final TaskMapper taskMapper;
 
+
     @GetMapping
     public ResponseEntity<List<TaskDto>> getTasks() {
         List<Task> tasks = service.getAllTasks();
@@ -30,6 +31,11 @@ public class TaskController {
     public ResponseEntity<TaskDto> getTask(@PathVariable Long taskId) throws TaskNotFoundException  {
         return ResponseEntity.ok(taskMapper.mapToTaskDto(service.getTask(taskId)));
     }
+
+    /*@GetMapping("/info")
+    public String getAppInfo() {
+        return "Application Version: " + appVersion;
+    }*/
 
     @DeleteMapping(value = "{taskId}")
     public ResponseEntity<Void> deleteTask(@PathVariable Long taskId) {
